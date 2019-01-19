@@ -52,7 +52,7 @@ class IndexControllerTest {
                 .andExpect(status().isOk)
                 .andExpect(view().name("index"))
                 .andExpect(forwardedUrl("/site/index.jsp"))
-                .andExpect(model().attribute("users", hasSize<Int>(2)))
+                .andExpect(model().attribute("users", hasSize<Int>(3)))
 
         verify(userService, times(1)).allUsers()
 
