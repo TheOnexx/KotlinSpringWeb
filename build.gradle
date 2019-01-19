@@ -1,0 +1,110 @@
+plugins {
+    id 'ear'
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.10'
+    id 'war'
+    id "org.jetbrains.kotlin.plugin.jpa" version "1.3.10"
+}
+
+group 'app.theone'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // The following dependencies will be the ear modules and
+    // will be placed in the ear root
+    // deploy project(':war')
+
+    // The following dependencies will become ear libs and will
+    // be placed in a dir configured via the libDirName property
+    // earlib group: 'log4j', name: 'log4j'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile group: 'org.springframework', name: 'spring-core', version: '5.1.2.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.1.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-beans', version: '5.1.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-web', version: '5.1.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.1.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version: '5.1.2.RELEASE'
+    compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.3.7.Final'
+    compile group: 'org.springframework', name: 'spring-orm', version: '5.1.2.RELEASE'
+    compile group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc4'
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.1.2.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-config', version: '5.1.2.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-web', version: '5.1.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-test', version: '5.1.2.RELEASE'
+
+    testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
+    testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
+
+
+
+    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+
+
+
+
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.1'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.1'
+
+    compile group: 'org.mockito', name: 'mockito-core', version: '1.10.19'
+
+
+
+    compile 'org.jetbrains.kotlin:kotlin-reflect:1.1.51'
+
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-noarg', version: '1.3.10'
+
+
+    //  runtime 'javax.servlet:jstl:1.1.2'
+//    providedCompile 'javax.servlet:servlet-api:2.5'
+//    providedCompile 'javax.servlet.jsp:jsp-api:2.1'
+
+    // https://mvnrepository.com/artifact/javax.servlet/jstl
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+
+    compile group: 'junit', name: 'junit', version: '4.12'
+}
+
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+war {
+    archiveName 'app.war'
+    webInf {
+        from 'src/resources/spring'
+    }
+
+}
+ear {
+    appDirName 'src/main/app'  // use application metadata found in this folder
+    // put dependent libraries into APP-INF/lib inside the generated EAR
+    libDirName 'APP-INF/lib'
+    deploymentDescriptor {  // custom entries for application.xml:
+//      fileName = "application.xml"  // same as the default value
+//      version = "6"  // same as the default value
+//      applicationName = "customear"
+        initializeInOrder = true
+//      displayName = "Custom Ear"  // defaults to project.name
+        // defaults to project.description if not set
+//      description = "My customized EAR for the Gradle documentation"
+//      libraryDirectory = "APP-INF/lib"  // not needed, above libDirName setting does this
+//      module("my.jar", "java")  // won't deploy as my.jar isn't deploy dependency
+//      webModule("my.war", "/")  // won't deploy as my.war isn't deploy dependency
+//      securityRole "admin"
+//      securityRole "superadmin"
+    }
+}
