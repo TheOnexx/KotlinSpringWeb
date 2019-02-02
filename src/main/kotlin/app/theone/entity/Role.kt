@@ -5,16 +5,18 @@ import javax.persistence.*
 @Entity
 @Table(name = "roles", schema = "public")
 data class Role (
-    @Id
-    @Column(name = "role_id")
-    var role: Long,
-
     @Column(name = "role_text")
     var roleText: String,
 
-    @Column(name ="role_description")
+    @Column(name = "role_description")
     var roleDescription: String,
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     var userId: MutableSet<User>?
-)
+) {
+
+    @Id
+    @Column(name = "role_id")
+    @GeneratedValue
+    var role: Long? = null
+}

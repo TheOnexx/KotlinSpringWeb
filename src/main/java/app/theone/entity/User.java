@@ -39,7 +39,7 @@ public class User implements Serializable {
     @Column(name = "last_login")
     private Date lastLogin;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "roles_users",
             joinColumns = {@JoinColumn(name = "user_id")},

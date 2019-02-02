@@ -8,6 +8,7 @@ import app.theone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -22,17 +23,16 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.encoder = encoder;
+        this.roleRepository = roleRepository;
     }
 
     @Override
+    @Transactional
     public User addUser(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        Set<User> users = new HashSet<>();
-        users.add(user);
-        Role role = new Role(1, "ADMIN", "for Admins", users);
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        user.setRoles(roles);
+        Optional<Role> roleId = roleRepository.findById(1L);
+        Set<Role> userRoles = user.getRoles();
+        userRoles.add(roleId.get());
         return userRepository.save(user);
     }
 
