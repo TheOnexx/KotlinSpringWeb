@@ -15,7 +15,7 @@
         <remember-me key= "myKey" token-validity-seconds= "300"/>
 
         <csrf disabled= "true"/>
-        <intercept-url pattern= "/admin/**" access= "hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern= "/admin**" access= "hasAuthority('ADMIN')"/>
         <!--<intercept-url pattern= "/user/**" access= "hasRole('USER')"/>-->
 
 
